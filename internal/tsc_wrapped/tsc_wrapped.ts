@@ -74,7 +74,9 @@ function runOneBuild(
     fileLoader = new CachedFileLoader(fileCache);
     // Resolve the inputs to absolute paths to match TypeScript internals
     const resolvedInputs = new Map<string, string>();
-    for (const key of Object.keys(inputs)) {
+    const keys = Object.keys(inputs);
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
       resolvedInputs.set(resolveNormalizedPath(key), inputs[key]);
     }
     fileCache.updateCache(resolvedInputs);
@@ -124,7 +126,8 @@ function runOneBuild(
   } else {
     sourceFilesToCheck = program.getSourceFiles().filter(isCompilationTarget);
   }
-  for (const sf of sourceFilesToCheck) {
+  for (let i = 0; i < sourceFilesToCheck.length; i++) {
+    const sf = sourceFilesToCheck[i];
     wrap(`check ${sf.fileName}`, () => {
       diags.push(...program.getSyntacticDiagnostics(sf));
       diags.push(...program.getSemanticDiagnostics(sf));

@@ -229,7 +229,7 @@ function warnOnOverriddenOptions(userConfig: any) {
   if (overrideWarnings.length) {
     console.error(
         '\nWARNING: your tsconfig.json file specifies options which are overridden by Bazel:');
-    for (const w of overrideWarnings) console.error(` - ${w}`);
+    for (let i = 0; i < overrideWarnings.length; i++) console.error(` - ${overrideWarnings[i]}`);
     console.error('\n');
   }
 }
@@ -337,8 +337,9 @@ export function parseTsconfig(
   }
 
   let disabledTsetseRules: string[] = [];
-  for (const pluginConfig of options['plugins'] as PluginImportWithConfig[] ||
-       []) {
+  const plugins = options['plugins'] as PluginImportWithConfig[] || [];
+  for (let i = 0; i < plugins.length; i++) {
+    const pluginConfig = plugins[i];
     if (pluginConfig.name && pluginConfig.name === '@bazel/tsetse') {
       const disabledRules = pluginConfig['disabledRules'];
       if (disabledRules && !Array.isArray(disabledRules)) {

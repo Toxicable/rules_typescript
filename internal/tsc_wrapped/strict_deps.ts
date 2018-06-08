@@ -82,10 +82,16 @@ export function checkModuleDeps(
     return fn.replace(/(\.d)?\.tsx?$/, '');
   }
   const allowedMap: {[fileName: string]: boolean} = {};
-  for (const d of allowedDeps) allowedMap[stripExt(d)] = true;
+
+  for (let i = 0; i < allowedDeps.length; i++) {
+    const d = allowedDeps[i];
+    allowedMap[stripExt(d)] = true;
+  }
 
   const result: ts.Diagnostic[] = [];
-  for (const stmt of sf.statements) {
+  const sfStatements = sf.statements;
+  for (let i = 0; i < sfStatements.length; i++) {
+    const stmt = sfStatements[i];
     if (stmt.kind !== ts.SyntaxKind.ImportDeclaration &&
         stmt.kind !== ts.SyntaxKind.ExportDeclaration) {
       continue;

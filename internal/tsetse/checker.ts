@@ -131,7 +131,8 @@ export class Checker {
       const handlers: Handler[]|undefined =
           thisChecker.nodeHandlersMap.get(node.kind);
       if (handlers !== undefined) {
-        for (const handler of handlers) {
+        for (let i = 0; i < handlers.length; i++) {
+          const handler = handlers[i];
           thisChecker.currentCode = handler.code;
           handler.handlerFunction(thisChecker, node);
         }

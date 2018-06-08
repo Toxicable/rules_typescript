@@ -16,7 +16,8 @@ function topologicalSort(
     visiting: tsickle.FileMap<boolean>) {
   const referencedModules = modulesManifest.getReferencedModules(current);
   if (!referencedModules) return;  // not in the local set of sources.
-  for (const referencedModule of referencedModules) {
+  for (let i = 0; i < referencedModules.length; i++) {
+    const referencedModule = referencedModules[i];
     const referencedFileName =
         modulesManifest.getFileNameFromModule(referencedModule);
     if (!referencedFileName) continue;  // Ambient modules.
@@ -44,7 +45,9 @@ export function constructManifest(
     modulesManifest: tsickle.ModulesManifest,
     host: {relativeOutputPath: (f: string) => string}): string {
   const result: tsickle.FileMap<boolean> = {};
-  for (const file of modulesManifest.fileNames) {
+  const fileNames = modulesManifest.fileNames;
+  for (let i = 0; i < fileNames.length; i++) {
+    const file = fileNames[i];
     topologicalSort(result, file, modulesManifest, {});
   }
 

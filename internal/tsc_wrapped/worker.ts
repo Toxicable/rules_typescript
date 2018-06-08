@@ -105,7 +105,9 @@ export function runWorkerLoop(
         consoleOutput = '';
         const args = req.getArguments();
         const inputs: {[path: string]: string} = {};
-        for (const input of req.getInputs()) {
+        const reqInputs = req.getInputs();
+        for (let i = 0; i < reqInputs.length; i++) {
+          const input = reqInputs[i];
           inputs[input.getPath()] = input.getDigest().toString('hex');
         }
         debug('Compiling with:\n\t' + args.join('\n\t'));

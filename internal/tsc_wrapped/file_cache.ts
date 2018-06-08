@@ -103,12 +103,16 @@ export class FileCache<T = {}> {
     this.debug('updating digests:', digests);
     this.lastDigests = digests;
     this.cannotEvict = false;
-    for (const [filePath, newDigest] of digests.entries()) {
+    const fileEntries = Array.from(digests.keys());
+    for (let i = 0; i < fileEntries.length; i++) {
+      const filePath = fileEntries[i];
+      const newDigest = digests.get(filePath);
+
       const entry = this.fileCache.get(filePath);
       if (entry && entry.digest !== newDigest) {
         this.debug(
             'dropping file cache entry for', filePath, 'digests', entry.digest,
-            newDigest);
+            newDigest as string);
         this.fileCache.delete(filePath);
       }
     }
@@ -224,7 +228,9 @@ export class FileCache<T = {}> {
     // Map keys are iterated in insertion order, since we reinsert on access
     // this is indeed a LRU strategy.
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/keys
-    for (const key of this.fileCache.keys()) {
+    const keys = Array.from(this.fileCache.keys());
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
       if (numberKeysToDrop === 0) break;
       // Do not attempt to drop files that are part of the current compilation
       // unit. They are hard-retained by TypeScript compiler anyway, so they

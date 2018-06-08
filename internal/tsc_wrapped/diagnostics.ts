@@ -104,7 +104,8 @@ export function filterExpected(
           return true;
         };
 
-    for (const expDiag of expectedDiags) {
+    for (let i = 0; i < expectedDiags.length; i++) {
+      const expDiag = expectedDiags[i];
       if (checkDiagMatchesExpected(expDiag, diag)) {
         expDiag.matched = true;
         matched = true;

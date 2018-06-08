@@ -152,7 +152,9 @@ function hasCheckReturnValueJsDoc(node: ts.CallExpression, tc: ts.TypeChecker) {
     symbol = tc.getAliasedSymbol(symbol);
   }
 
-  for (const jsDocTagInfo of symbol.getJsDocTags()) {
+  const tags = symbol.getJsDocTags();
+  for (let i = 0; i < tags.length; i ++) {
+    const jsDocTagInfo = tags[i];
     if (jsDocTagInfo.name === 'checkReturnValue') {
       return true;
     }

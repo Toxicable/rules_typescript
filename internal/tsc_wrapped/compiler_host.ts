@@ -158,7 +158,9 @@ export class CompilerHost implements ts.CompilerHost, tsickle.TsickleHost {
       result = path.relative(this.options.outDir, fileName);
     }
 
-    for (const dir of this.relativeRoots) {
+    const relativeRoots = this.relativeRoots;
+    for (let i = 0; i < relativeRoots.length; i++) {
+      const dir = relativeRoots[i];
       // relativeRoots[i]/path/to/file -> path/to/file
       const rel = path.relative(dir, result);
       if (!rel.startsWith('..')) {
@@ -206,7 +208,9 @@ export class CompilerHost implements ts.CompilerHost, tsickle.TsickleHost {
    * @return the path without any rootDirs, eg. path/to/file
    */
   private rootDirsRelative(fileName: string): string {
-    for (const root of this.options.rootDirs) {
+    const rootDirs = this.options.rootDirs;
+    for (let i = 0; i < rootDirs.length; i++) {
+      const root = rootDirs[i];
       if (fileName.startsWith(root)) {
         // rootDirs are sorted longest-first, so short-circuit the iteration
         // see tsconfig.ts.

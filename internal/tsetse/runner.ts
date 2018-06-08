@@ -49,7 +49,8 @@ export const PLUGIN: pluginApi.Plugin = {
 };
 
 export function registerRules(checker: Checker, disabledTsetseRules: string[]) {
-  for (const rule of ENABLED_RULES) {
+  for (let i = 0; i < ENABLED_RULES.length; i ++) {
+    const rule = ENABLED_RULES[i];
     if (disabledTsetseRules.indexOf(rule.ruleName) === -1) {
       rule.register(checker);
     }

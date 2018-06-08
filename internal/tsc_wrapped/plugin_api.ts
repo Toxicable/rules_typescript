@@ -45,7 +45,9 @@ export type Plugin = TscPlugin;
  */
 export function createProxy<T>(delegate: T): T {
   const proxy = Object.create(null);
-  for (const k of Object.keys(delegate)) {
+  const delegateKeys = Object.keys(delegate)
+  for (let i = 0; i < delegateKeys.length; i++) {
+    const k = delegateKeys[i];
     proxy[k] = function() {
       return (delegate as any)[k].apply(delegate, arguments);
     };
