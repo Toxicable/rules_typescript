@@ -175,7 +175,7 @@ def create_tsconfig(
         bazel_options["maxCacheSizeMb"] = max_cache_size_mb
 
     has_node_runtime = getattr(ctx.attr, "runtime", "browser") == "nodejs"
-    target_language_level = "es5" if devmode_manifest or has_node_runtime else "es2015"
+    target_language_level = "es5" if devmode_manifest or has_node_runtime else "es2018"
 
     # Keep these options in sync with those in playground/playground.ts.
     compiler_options = {
